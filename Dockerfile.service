@@ -1,0 +1,19 @@
+FROM php:8.3-cli
+
+RUN apt-get update && apt-get install -y git unzip \
+    libcurl4-gnutls-dev pkg-config libssl-dev \
+    && docker-php-ext-install pdo pdo_mysql \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+COPY ./service /var/www/service
+
+WORKDIR /var/www/service
+
+RUN composer install
+
+EXPOSE 9000
+
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]

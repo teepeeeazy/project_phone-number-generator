@@ -1,0 +1,11 @@
+# Ignore the following files and directories when building the Docker image
+*.log
+*.tmp
+*.cache
+node_modules
+vendor
+.DS_Store
+.git
+.gitignore
+.env
+*.md
